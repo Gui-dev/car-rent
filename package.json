@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev -r tsconfig-paths/register --transpile-only --ignore-watch node_modules  index.ts",
+    "dev": "ts-node-dev --inspect -r tsconfig-paths/register --transpile-only --ignore-watch node_modules  index.ts",
     "lint": "eslint 'src/**/*.ts' --max-warnings=0",
     "lint:fix": "yarn lint --fix",
     "lint-staged": "lint-staged",
