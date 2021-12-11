@@ -1,10 +1,10 @@
 import { Router } from 'express'
 
+import { categoriesRouter } from '@modules/categories/infra/http/routes/categories.routes'
+
 const routes = Router()
 
-routes.get('/', (req, res) => {
-  res.json({ result: 'Hello World' })
-})
+routes.use('/categories', categoriesRouter)
 
 export {
   routes
