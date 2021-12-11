@@ -1,5 +1,6 @@
 import { Router } from 'express'
-import { CreateCategoryService } from '../../services/CreateCategoryService'
+
+import { CreateCategoryService } from '@modules/categories/services/CreateCategoryService'
 import { CategoryRepository } from '../../typeorm/repositories/CategoryRepository'
 
 const categoriesRouter = Router()
