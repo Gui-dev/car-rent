@@ -1,6 +1,6 @@
 import { AppError } from '@shared/infra/error/AppError'
-import { Category } from '../typeorm/model/Category'
-import { CategoryRepository } from '../typeorm/repositories/CategoryRepository'
+import { Category } from '@modules/categories/infra/typeorm/model/Category'
+import { CategoryRepository } from '@modules/categories/infra/typeorm/repositories/CategoryRepository'
 
 interface IRequest {
   name: string
