@@ -1,20 +1,14 @@
 import { Router } from 'express'
 
-import { CreateCategoryService } from '@modules/categories/services/CreateCategoryService'
+import { CategoryController } from '@modules/categories/infra/http/controllers/CategoryController'
 import { CategoryRepository } from '../../typeorm/repositories/CategoryRepository'
 
 const categoriesRouter = Router()
 
+const categoryController = new CategoryController()
 const categoriesRepository = new CategoryRepository()
 
-categoriesRouter.post('/', async (req, res) => {
-  const { name, description } = req.body
-  const createCategoryService = new CreateCategoryService(categoriesRepository)
-
-  const categories = await createCategoryService.execute({ name, description })
-
-  return res.status(201).json(categories)
-})
+categoriesRouter.post('/', categoryController.create)
 
 categoriesRouter.get('/', async (req, res) => {
   const categories = await categoriesRepository.listCategories()
