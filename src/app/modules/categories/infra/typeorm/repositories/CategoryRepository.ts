@@ -6,8 +6,18 @@ import { Category } from '../model/Category'
 export class CategoryRepository implements ICategoryRepository {
   private categories: Category[]
 
-  constructor () {
+  private static INSTANCE: CategoryRepository
+
+  private constructor () {
     this.categories = []
+  }
+
+  public static getInstance (): CategoryRepository {
+    if (!CategoryRepository.INSTANCE) {
+      CategoryRepository.INSTANCE = new CategoryRepository()
+    }
+
+    return CategoryRepository.INSTANCE
   }
 
   public async findByName (name: string): Promise<Category> {
