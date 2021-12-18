@@ -1,6 +1,6 @@
 import { AppError } from '@shared/infra/error/AppError'
 import { Category } from '@modules/categories/infra/typeorm/model/Category'
-import { CategoryRepository } from '@modules/categories/infra/typeorm/repositories/CategoryRepository'
+import { ICategoryRepository } from '@modules/categories/repositories/ICategoryRepository'
 
 interface IRequest {
   name: string
@@ -8,7 +8,7 @@ interface IRequest {
 }
 
 export class CreateCategoryService {
-  constructor (private categoriesRepository: CategoryRepository) {}
+  constructor (private categoriesRepository: ICategoryRepository) {}
 
   public async execute ({ name, description }: IRequest): Promise<Category[]> {
     const categoryAlreadyExists = await this.categoriesRepository.findByName(name)
