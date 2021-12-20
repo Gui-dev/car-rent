@@ -1,5 +1,5 @@
 import { Express } from 'express'
-import { createReadStream } from 'fs'
+import { createReadStream, promises } from 'fs'
 import { parse as csvParse } from 'csv-parse'
 
 import { ICategoryRepository } from '../repositories/ICategoryRepository'
@@ -50,6 +50,7 @@ export class ImportCategoryService {
           })
         })
         .on('end', () => {
+          promises.unlink(file.path)
           resolve(categories)
         })
         .on('error', () => {
