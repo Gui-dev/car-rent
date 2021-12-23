@@ -3,6 +3,7 @@ import cors from 'cors'
 import { serve, setup } from 'swagger-ui-express'
 
 import swaggerFile from './../../../../../swagger.json'
+import '@shared/infra/database'
 
 import { routes } from '@shared/infra/http/routes'
 
