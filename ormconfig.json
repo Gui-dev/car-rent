@@ -5,6 +5,9 @@
   "username": "docker",
   "password": "root",
   "database": "car-rent",
-  "entities": ["src/app/modules/**/infra/typeorm/model/*.ts"],
-  "migrations": ["src/app/shared/infra/database/migration/*.ts"]
+  "entities": ["./src/app/modules/**/infra/typeorm/model/*.ts"],
+  "migrations": ["./src/app/shared/infra/database/migrations/*.ts"],
+  "cli": {
+    "migrationsDir": "./src/app/shared/infra/database/migrations"
+  }
 }
