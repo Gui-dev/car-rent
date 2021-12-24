@@ -8,7 +8,8 @@
     "lint": "eslint 'src/**/*.ts' --max-warnings=0",
     "lint:fix": "yarn lint --fix",
     "lint-staged": "lint-staged",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
   },
   "lint-staged": {
     "src/**/*.ts": [
