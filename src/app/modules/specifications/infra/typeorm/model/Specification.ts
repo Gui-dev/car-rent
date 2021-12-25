@@ -1,9 +1,17 @@
+import { Column, CreateDateColumn, PrimaryColumn } from 'typeorm'
 import { v4 as uuid } from 'uuid'
 
 export class Specification {
-  public id?: string
+  @PrimaryColumn()
+  public id: string
+
+  @Column()
   public name: string
+
+  @Column()
   public description: string
+
+  @CreateDateColumn()
   public created_at: Date
 
   constructor () {
