@@ -17,7 +17,7 @@ export class CreateSpecificationService {
   ) {}
 
   public async execute ({ name, description }: IRequest): Promise<Specification[]> {
-    const specificationAlreadyExists = this.specificationRepository.findByName(name)
+    const specificationAlreadyExists = await this.specificationRepository.findByName(name)
 
     if (!specificationAlreadyExists) {
       throw new AppError('Specification already exists')

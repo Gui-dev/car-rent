@@ -11,7 +11,7 @@ export class ListCategoriesService {
   ) {}
 
   public async execute (): Promise<Category[]> {
-    const categories = this.categoriesRepository.listCategories()
+    const categories = await this.categoriesRepository.listCategories()
 
     return categories
   }
