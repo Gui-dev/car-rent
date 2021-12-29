@@ -16,10 +16,10 @@ export class CreateSpecificationService {
     private specificationRepository: ISpecificationsRepository
   ) {}
 
-  public async execute ({ name, description }: IRequest): Promise<Specification[]> {
+  public async execute ({ name, description }: IRequest): Promise<Specification> {
     const specificationAlreadyExists = await this.specificationRepository.findByName(name)
 
-    if (!specificationAlreadyExists) {
+    if (specificationAlreadyExists) {
       throw new AppError('Specification already exists')
     }
 

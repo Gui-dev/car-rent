@@ -1,33 +1,29 @@
+import { getRepository, Repository } from 'typeorm'
+
 import { ISpecificationsRepository } from '@modules/specifications/repositories/ISpecificationsRepository'
 import { Specification } from '../model/Specification'
 import { ICreateSpecificationDTO } from '@modules/specifications/dtos/ICreateSpecificationDTO'
-import { AppError } from '@shared/infra/error/AppError'
 
 export class SpecificationsRepository implements ISpecificationsRepository {
-  private specifications: Specification[]
+  private specificationRepository: Repository<Specification>
 
   constructor () {
-    this.specifications = []
+    this.specificationRepository = getRepository(Specification)
   }
 
-  public async create ({ name, description }: ICreateSpecificationDTO): Promise<Specification[]> {
-    const specification: Specification = {
+  public async create ({ name, description }: ICreateSpecificationDTO): Promise<Specification> {
+    const specification = this.specificationRepository.create({
       name,
-      description,
-      created_at: new Date()
-    }
+      description
+    })
 
-    this.specifications.push(specification)
+    await this.specificationRepository.save(specification)
 
-    return this.specifications
+    return specification
   }
 
   public async findByName (name: string): Promise<Specification> {
-    const specification = this.specifications.find(specification => specification.name === name)
-
-    if (!specification) {
-      throw new AppError('Specification not found', 404)
-    }
+    const specification = await this.specificationRepository.findOne({ name })
 
     return specification
   }
