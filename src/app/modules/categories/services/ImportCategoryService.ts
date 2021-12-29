@@ -1,4 +1,5 @@
 import { Express } from 'express'
+import { inject, injectable } from 'tsyringe'
 import { createReadStream, promises } from 'fs'
 import { parse as csvParse } from 'csv-parse'
 
@@ -14,8 +15,12 @@ type loadCategoriesFileProps = {
   description: string
 }
 
+@injectable()
 export class ImportCategoryService {
-  constructor (private categoriesRepository: ICategoryRepository) {}
+  constructor (
+    @inject('CategoryRepository')
+    private categoriesRepository: ICategoryRepository
+  ) {}
 
   public async execute ({ file }: ImportCategoryServiceProps): Promise<void> {
     const categories = await this.loadCategoriesFile({ file })
