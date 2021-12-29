@@ -1,3 +1,5 @@
+import { inject, injectable } from 'tsyringe'
+
 import { AppError } from '@shared/infra/error/AppError'
 import { Category } from '@modules/categories/infra/typeorm/model/Category'
 import { ICategoryRepository } from '@modules/categories/repositories/ICategoryRepository'
@@ -7,8 +9,12 @@ interface IRequest {
   description: string
 }
 
+@injectable()
 export class CreateCategoryService {
-  constructor (private categoriesRepository: ICategoryRepository) {}
+  constructor (
+    @inject('CategoryRepository')
+    private categoriesRepository: ICategoryRepository
+  ) {}
 
   public async execute ({ name, description }: IRequest): Promise<Category> {
     const categoryAlreadyExists = await this.categoriesRepository.findByName(name)

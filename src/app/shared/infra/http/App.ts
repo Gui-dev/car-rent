@@ -4,6 +4,7 @@ import { serve, setup } from 'swagger-ui-express'
 
 import swaggerFile from './../../../../../swagger.json'
 import '@shared/infra/database'
+import '@shared/container'
 
 import { routes } from '@shared/infra/http/routes'
 
