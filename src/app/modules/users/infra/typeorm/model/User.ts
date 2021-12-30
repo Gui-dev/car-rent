@@ -25,7 +25,7 @@ export class User {
   public admin: boolean
 
   @CreateDateColumn()
-  public create_at: Date
+  public created_at: Date
 
   constructor () {
     if (!this.id) {
