@@ -5,11 +5,10 @@ import { CreateUserServices } from '@modules/users/services/CreateUserServices'
 
 export class UserController {
   public async create (request: Request, response: Response): Promise<Response> {
-    const { name, username, email, password, driver_license } = request.body
+    const { name, email, password, driver_license } = request.body
     const createUserService = container.resolve(CreateUserServices)
     const user = await createUserService.execute({
       name,
-      username,
       email,
       password,
       driver_license
