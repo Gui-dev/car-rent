@@ -1,9 +1,9 @@
 export class AppError {
-  private readonly message: string
-  private readonly status: number
+  public readonly message: string
+  public readonly statusCode: number
 
-  constructor (message: string, status = 400) {
+  constructor (message: string, statusCode = 400) {
     this.message = message
-    this.status = status
+    this.statusCode = statusCode
   }
 }
