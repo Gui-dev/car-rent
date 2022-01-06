@@ -1,7 +1,9 @@
 /node_modules
 /.vscode
 
-/tmp/uploads/*.jpg
-/tmp/uploads/*.jpeg
-/tmp/uploads/*.png
-/tmp/uploads/*.csv
+/tmp/avatar/*
+/tmp/files/*
+
+!.gitkeep
+!/tmp/avatar/.gitkeep
+!/tmp/files/.gitkeep
