@@ -4,6 +4,7 @@ import { IUpdateUserAvatarDTO } from '../dtos/IUpdateUserAvatarDTO'
 import { IUserRepository } from '../repositories/IUserRepository'
 import { AppError } from '@shared/infra/error/AppError'
 import { User } from '../infra/typeorm/model/User'
+import { deleteFile } from '@shared/utils/file'
 
 @injectable()
 export class UpdateUserAvatarService {
@@ -17,6 +18,10 @@ export class UpdateUserAvatarService {
 
     if (!user) {
       throw new AppError('User not found', 401)
+    }
+
+    if (user.avatar) {
+      await deleteFile('avatar', user.avatar)
     }
 
     user.avatar = avatar_file
