@@ -23,6 +23,9 @@ export class User {
   @Column()
   public admin: boolean
 
+  @Column()
+  public avatar: string
+
   @CreateDateColumn()
   public created_at: Date
 

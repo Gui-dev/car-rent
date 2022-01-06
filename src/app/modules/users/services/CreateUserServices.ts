@@ -15,7 +15,7 @@ export class CreateUserServices {
     private hashProvider: BcryptHashProvider
   ) {}
 
-  public async execute ({ name, email, password, driver_license }: ICreateUserDTO): Promise<User> {
+  public async execute ({ name, email, password, driver_license, avatar }: ICreateUserDTO): Promise<User> {
     const userAlreadyExists = await this.userRepository.findByEmail(email)
 
     if (userAlreadyExists) {
@@ -27,7 +27,8 @@ export class CreateUserServices {
       name,
       email,
       password: passwordHashed,
-      driver_license
+      driver_license,
+      avatar
     })
 
     return user
