@@ -3,6 +3,7 @@ import { FakeBcryptHashProvider } from '@modules/users/providers/hashProvider/fa
 import { AuthenticateUserService } from '../AuthenticateUserService'
 import { CreateUserServices } from '../CreateUserServices'
 import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO'
+import { AppError } from '@shared/infra/error/AppError'
 
 let userRepositoryInMemory: UserRepositoryInMemory
 let authenticateUserService: AuthenticateUserService
@@ -39,5 +40,14 @@ describe('Authenticate User Service', () => {
     })
 
     expect(authenticateResult).toHaveProperty('token')
+  })
+
+  it('should not be able to authenticate an nonexistent user', () => {
+    expect(async () => {
+      await authenticateUserService.execute({
+        email: 'fake@email.com',
+        password: 'fake_password'
+      })
+    }).rejects.toBeInstanceOf(AppError)
   })
 })
