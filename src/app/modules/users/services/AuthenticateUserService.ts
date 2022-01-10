@@ -1,10 +1,10 @@
 import { inject, injectable } from 'tsyringe'
+import { sign } from 'jsonwebtoken'
 
 import { IAuthenticateUserDTO } from '../dtos/IAuthenticateUserDTO'
-import { UserRepository } from '../infra/typeorm/repositories/UserRepository'
 import { AppError } from '@shared/infra/error/AppError'
-import { BcryptHashProvider } from '../providers/hashProvider/implementations/BcryptHasProvider'
-import { JsonWebTokenProvider } from '../providers/jwt/implementations/JsonWebTokenProvider'
+import { IUserRepository } from '../repositories/IUserRepository'
+import { IBcryptHashProvider } from '../providers/hashProvider/models/IBcryptHashProvider'
 
 type User = {
   id: string
@@ -24,11 +24,9 @@ type IResponse = {
 export class AuthenticateUserService {
   constructor (
     @inject('UserRepository')
-    private userRepository: UserRepository,
+    private userRepository: IUserRepository,
     @inject('BcryptHashProvider')
-    private bcryptHashProvider: BcryptHashProvider,
-    @inject('JsonWebTokenProvider')
-    private jsonWebTokenProvider: JsonWebTokenProvider
+    private bcryptHashProvider: IBcryptHashProvider
   ) {}
 
   public async execute ({ email, password }: IAuthenticateUserDTO): Promise<IResponse> {
@@ -44,7 +42,10 @@ export class AuthenticateUserService {
       throw new AppError('E-mail or password incorrect', 401)
     }
 
-    const token = await this.jsonWebTokenProvider.generate(user.id)
+    const token = sign({}, 'minhachavesecreta', {
+      subject: user.id,
+      expiresIn: '1d'
+    })
 
     if (!token) {
       throw new AppError('Error generating token', 400)
