@@ -1,14 +1,14 @@
-// import { injectable, inject } from 'tsyringe'
+import { injectable, inject } from 'tsyringe'
 
 import { Car } from '@modules/cars/infra/typeorm/model/Car'
 import { ICreateCarDTO } from '@modules/cars/dtos/ICreateCarDTO'
 import { AppError } from '@shared/infra/error/AppError'
 import { ICarRepository } from '../repositories/ICarRepository'
 
-// @injectable()
+@injectable()
 export class CreateCarService {
   constructor (
-    // @inject('CarRepository')
+    @inject('CarRepository')
     private carRepository: ICarRepository
   ) {}
 
