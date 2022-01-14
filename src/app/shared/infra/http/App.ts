@@ -1,15 +1,17 @@
+import 'reflect-metadata'
 import express, { NextFunction, Request, Response } from 'express'
 import 'express-async-errors'
 import cors from 'cors'
 import { serve, setup } from 'swagger-ui-express'
 
 import swaggerFile from './../../../../../swagger.json'
-import '@shared/infra/database'
 import '@shared/container'
-
-import { routes } from '@shared/infra/http/routes'
+import createConnection from '@shared/infra/database'
 import { AppError } from '../error/AppError'
 
+import { routes } from '@shared/infra/http/routes'
+
+createConnection()
 const app = express()
 
 app.use(express.json())
