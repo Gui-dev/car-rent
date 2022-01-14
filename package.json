@@ -10,6 +10,7 @@
     "lint-staged": "lint-staged",
     "prepare": "husky install",
     "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "seed:admin": "ts-node-dev -r tsconfig-paths/register 'src/app/shared/infra/database/seed/admin.ts'",
     "test": "jest"
   },
   "lint-staged": {
