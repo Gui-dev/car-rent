@@ -1,6 +1,6 @@
 import { Column, CreateDateColumn, Entity, PrimaryColumn } from 'typeorm'
 import { v4 as uuid } from 'uuid'
-import { Exclude } from 'class-transformer'
+import { Exclude, Expose } from 'class-transformer'
 
 @Entity('users')
 export class User {
@@ -21,6 +21,7 @@ export class User {
   public driver_license: string
 
   @Column()
+  @Expose()
   public admin: boolean
 
   @Column()
