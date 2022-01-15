@@ -1,4 +1,3 @@
-import 'reflect-metadata'
 import { AppError } from '@shared/infra/error/AppError'
 import { CreateCategoryService } from '@modules/categories/services/CreateCategoryService'
 import { CategoryRepositoryInMemory } from '@modules/categories/infra/typeorm/repositories/in-memory/CategoryRepositoryInMemory'
