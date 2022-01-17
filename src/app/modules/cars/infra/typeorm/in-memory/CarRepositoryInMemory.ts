@@ -1,5 +1,6 @@
 import { ICarRepository } from '@modules/cars/repositories/ICarRepository'
 import { ICreateCarDTO } from '@modules/cars/dtos/ICreateCarDTO'
+import { IListCarsDTO } from '@modules/cars/dtos/IListCarsDTO'
 import { Car } from '@modules/cars/infra/typeorm/model/Car'
 
 export class CarRepositoryInMemory implements ICarRepository {
@@ -31,9 +32,27 @@ export class CarRepositoryInMemory implements ICarRepository {
     return car
   }
 
-  public async findByLicensePlate (license_plate: string): Promise<Car> {
+  public async findByLicensePlate (license_plate: string): Promise<Car | undefined> {
     const car = this.cars.find(car => car.license_plate === license_plate)
 
-    return car as Car
+    return car
+  }
+
+  public async findAllAvailablesCars ({ category_id, name, brand }: IListCarsDTO): Promise<Car[]> {
+    const cars = this.cars
+      .filter(car => {
+        if (
+          (car.available === true) ||
+          (category_id && car.category_id === category_id) ||
+          (name && car.name === name) ||
+          (brand && car.brand === brand)
+        ) {
+          return car
+        }
+
+        return null
+      })
+
+    return cars
   }
 }

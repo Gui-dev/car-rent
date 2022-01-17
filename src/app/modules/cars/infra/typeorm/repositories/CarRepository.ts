@@ -18,9 +18,13 @@ export class CarRepository implements ICarRepository {
     return car
   }
 
-  public async findByLicensePlate (license_plate: string): Promise<Car> {
+  public async findByLicensePlate (license_plate: string): Promise<Car | undefined> {
     const car = await this.repositoryCar.findOne({ license_plate })
 
     return car
+  }
+
+  public async findAllAvailablesCars (): Promise<Car[]> {
+    throw new Error('Method not implemented.')
   }
 }
