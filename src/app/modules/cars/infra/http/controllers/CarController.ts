@@ -2,8 +2,21 @@ import { Request, Response } from 'express'
 import { container } from 'tsyringe'
 
 import { CreateCarService } from '@modules/cars/services/CreateCarService'
+import { ListAvailablesCarsService } from '@modules/cars/services/ListAvailablesCarsService'
 
 export class CarController {
+  public async index (request: Request, response: Response): Promise<Response> {
+    const { category_id, name, brand } = request.query
+    const listAvalilablesCarsService = container.resolve(ListAvailablesCarsService)
+    const cars = await listAvalilablesCarsService.execute({
+      category_id: category_id as string,
+      name: name as string,
+      brand: brand as string
+    })
+
+    return response.status(201).json(cars)
+  }
+
   public async create (request: Request, response: Response): Promise<Response> {
     const {
       category_id,
