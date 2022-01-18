@@ -4,7 +4,7 @@ import { ICarRepository } from '../repositories/ICarRepository'
 import { IListCarsDTO } from '@modules/cars/dtos/IListCarsDTO'
 
 @injectable()
-export class ListCarsService {
+export class ListAvailablesCarsService {
   constructor (
     @inject('CarRepository')
     private carRepository: ICarRepository
