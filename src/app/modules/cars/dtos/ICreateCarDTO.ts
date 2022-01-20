@@ -1,6 +1,7 @@
 import { Specification } from '@modules/specifications/infra/typeorm/model/Specification'
 
 export interface ICreateCarDTO {
+  id?: string
   category_id: string
   name: string
   description: string

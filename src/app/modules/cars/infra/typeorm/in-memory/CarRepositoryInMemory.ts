@@ -7,6 +7,7 @@ export class CarRepositoryInMemory implements ICarRepository {
   public cars: Car[] = []
 
   public async create ({
+    id,
     category_id,
     name,
     description,
@@ -19,6 +20,7 @@ export class CarRepositoryInMemory implements ICarRepository {
     const car = new Car()
 
     Object.assign(car, {
+      id,
       category_id,
       name,
       description,
