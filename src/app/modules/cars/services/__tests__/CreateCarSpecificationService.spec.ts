@@ -1,6 +1,7 @@
 import { CreateCarSpecificationService } from '../CreateCarSpecificationService'
 import { CarRepositoryInMemory } from '@modules/cars/infra/typeorm/in-memory/CarRepositoryInMemory'
 import { SpecificationsRepositoryInMemory } from '@modules/specifications/infra/typeorm/repositories/in-memory/SpecificationsRepositoryInMemory'
+import { AppError } from '@shared/infra/error/AppError'
 
 let createCarSpecificationService: CreateCarSpecificationService
 let carRepositoryInMemory: CarRepositoryInMemory
@@ -14,6 +15,15 @@ describe('Create Car Specification Service', () => {
       carRepositoryInMemory,
       specificationsRepositoryInMemory
     )
+  })
+
+  it('should not be able to add a new specification to a now-existent car', async () => {
+    expect(async () => {
+      await createCarSpecificationService.execute({
+        car_id: 'fake_car_id',
+        specification_id: ['fake_specification_id']
+      })
+    }).rejects.toBeInstanceOf(AppError)
   })
 
   it('should be able to add a new specification to the car', async () => {
