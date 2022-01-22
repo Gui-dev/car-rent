@@ -3,7 +3,9 @@
 
 /tmp/avatar/*
 /tmp/files/*
+/tmp/cars/*
 
 !.gitkeep
 !/tmp/avatar/.gitkeep
 !/tmp/files/.gitkeep
+!/tmp/cars/.gitkeep
