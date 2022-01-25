@@ -20,10 +20,10 @@ export class RentalsRepositoryInMemory implements IRentalsRepository {
   }
 
   public async findOpenRentalByCar (car_id: string): Promise<Rental | undefined> {
-    return this.rentalsRepository.find(rental => rental.car_id === car_id && rental.end_date === null)
+    return this.rentalsRepository.find(rental => rental.car_id === car_id && !rental.end_date)
   }
 
   public async findOpenRentalByUser (user_id: string): Promise<Rental | undefined> {
-    return this.rentalsRepository.find(rental => rental.user_id === user_id && rental.end_date === null)
+    return this.rentalsRepository.find(rental => rental.user_id === user_id && !rental.end_date)
   }
 }
