@@ -31,7 +31,23 @@ describe('Create Rental Service', () => {
 
       await createRentalsService.execute({
         user_id: 'fake_user_id',
-        car_id: 'fake_car_id_2',
+        car_id: 'another_fake_car_id',
+        expected_return_date: new Date()
+      })
+    }).rejects.toBeInstanceOf(AppError)
+  })
+
+  it('should not be able to create a new rental if there\'s another open to the same car', () => {
+    expect(async () => {
+      await createRentalsService.execute({
+        user_id: 'fake_user_id',
+        car_id: 'fake_car_id',
+        expected_return_date: new Date()
+      })
+
+      await createRentalsService.execute({
+        user_id: 'another_fake_user_id',
+        car_id: 'fake_car_id',
         expected_return_date: new Date()
       })
     }).rejects.toBeInstanceOf(AppError)
