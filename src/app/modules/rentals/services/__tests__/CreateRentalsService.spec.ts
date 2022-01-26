@@ -1,3 +1,5 @@
+import dayjs from 'dayjs'
+
 import { RentalsRepositoryInMemory } from '@modules/rentals/infra/typeorm/in-memory/RentalsRepositoryInMemory'
 import { AppError } from '@shared/infra/error/AppError'
 import { CreateRentalsService } from '../CreateRentalsService'
@@ -6,15 +8,18 @@ let rentalsRepositoryInMemory: RentalsRepositoryInMemory
 let createRentalsService: CreateRentalsService
 
 describe('Create Rental Service', () => {
+  const dayAddTwentyFourHours = dayjs().add(1, 'day').toDate()
+
   beforeEach(() => {
     rentalsRepositoryInMemory = new RentalsRepositoryInMemory()
     createRentalsService = new CreateRentalsService(rentalsRepositoryInMemory)
   })
+
   it('should be able to create a new rental', async () => {
     const rental = await createRentalsService.execute({
       user_id: 'fake_user_id',
       car_id: 'fake_car_id',
-      expected_return_date: new Date()
+      expected_return_date: dayAddTwentyFourHours
     })
 
     expect(rental).toHaveProperty('id')
@@ -26,13 +31,13 @@ describe('Create Rental Service', () => {
       await createRentalsService.execute({
         user_id: 'fake_user_id',
         car_id: 'fake_car_id',
-        expected_return_date: new Date()
+        expected_return_date: dayAddTwentyFourHours
       })
 
       await createRentalsService.execute({
         user_id: 'fake_user_id',
         car_id: 'another_fake_car_id',
-        expected_return_date: new Date()
+        expected_return_date: dayAddTwentyFourHours
       })
     }).rejects.toBeInstanceOf(AppError)
   })
@@ -42,13 +47,23 @@ describe('Create Rental Service', () => {
       await createRentalsService.execute({
         user_id: 'fake_user_id',
         car_id: 'fake_car_id',
-        expected_return_date: new Date()
+        expected_return_date: dayAddTwentyFourHours
       })
 
       await createRentalsService.execute({
         user_id: 'another_fake_user_id',
         car_id: 'fake_car_id',
-        expected_return_date: new Date()
+        expected_return_date: dayAddTwentyFourHours
+      })
+    }).rejects.toBeInstanceOf(AppError)
+  })
+
+  it('should not be able to create a new rental with invalid return time', () => {
+    expect(async () => {
+      await createRentalsService.execute({
+        user_id: 'fake_user_id',
+        car_id: 'fake_car_id',
+        expected_return_date: dayjs().toDate()
       })
     }).rejects.toBeInstanceOf(AppError)
   })
