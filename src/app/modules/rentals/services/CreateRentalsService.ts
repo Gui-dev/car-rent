@@ -1,12 +1,18 @@
 import { injectable, inject } from 'tsyringe'
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
 
 import { IRentalsRepository } from '../repositories/IRentalsRepository'
 import { ICreateRentalDTO } from '@modules/rentals/dtos/ICreateRentalDTO'
 import { AppError } from '@shared/infra/error/AppError'
 import { Rental } from '../infra/typeorm/model/Rental'
 
+dayjs.extend(utc)
+
 @injectable()
 export class CreateRentalsService {
+  public minimumHour = 24 // Twenty Four hours
+
   constructor (
     @inject('RentalsRepository')
     private rentalsRepository: IRentalsRepository
@@ -23,6 +29,14 @@ export class CreateRentalsService {
 
     if (rentalOpenToUser) {
       throw new AppError('There\'s a rental in progress for user!')
+    }
+
+    const expectedReturnDateFormat = dayjs(expected_return_date).utc().local().format()
+    const dateNow = dayjs().utc().local().format()
+    const compareDate = dayjs(expectedReturnDateFormat).diff(dateNow, 'hours')
+
+    if (compareDate < this.minimumHour) {
+      throw new AppError('Invalid return time!')
     }
 
     const rentalCar = await this.rentalsRepository.create({
