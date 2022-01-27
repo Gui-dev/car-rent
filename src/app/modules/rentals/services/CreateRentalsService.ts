@@ -1,13 +1,10 @@
 import { injectable, inject } from 'tsyringe'
-import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
 
 import { IRentalsRepository } from '../repositories/IRentalsRepository'
 import { ICreateRentalDTO } from '@modules/rentals/dtos/ICreateRentalDTO'
 import { AppError } from '@shared/infra/error/AppError'
 import { Rental } from '../infra/typeorm/model/Rental'
-
-dayjs.extend(utc)
+import { IDateProvider } from '../providers/DateProvider/models/IDateProvider'
 
 @injectable()
 export class CreateRentalsService {
@@ -15,7 +12,9 @@ export class CreateRentalsService {
 
   constructor (
     @inject('RentalsRepository')
-    private rentalsRepository: IRentalsRepository
+    private rentalsRepository: IRentalsRepository,
+    @inject('DayJSDateProvider')
+    private dayJSDateProvider: IDateProvider
   ) {}
 
   public async execute ({ user_id, car_id, expected_return_date }: ICreateRentalDTO): Promise<Rental> {
@@ -31,9 +30,8 @@ export class CreateRentalsService {
       throw new AppError('There\'s a rental in progress for user!')
     }
 
-    const expectedReturnDateFormat = dayjs(expected_return_date).utc().local().format()
-    const dateNow = dayjs().utc().local().format()
-    const compareDate = dayjs(expectedReturnDateFormat).diff(dateNow, 'hours')
+    const dateNow = this.dayJSDateProvider.dateNow()
+    const compareDate = this.dayJSDateProvider.compareInHours(dateNow, expected_return_date)
 
     if (compareDate < this.minimumHour) {
       throw new AppError('Invalid return time!')
