@@ -1,24 +1,38 @@
+import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from 'typeorm'
 import { v4 as uuid } from 'uuid'
 
+@Entity('rentals')
 export class Rental {
-  public id: string
+  @PrimaryColumn()
+  public readonly id: string
+
+  @Column()
   public user_id: string
+
+  @Column()
   public car_id: string
+
+  @Column()
   public start_date: Date
+
+  @Column()
   public end_date: Date
+
+  @Column()
   public expected_return_date: Date
+
+  @Column()
   public total: number
+
+  @CreateDateColumn()
   public created_at: Date
+
+  @UpdateDateColumn()
   public updated_at: Date
 
   constructor () {
     if (!this.id) {
       this.id = uuid()
-      // this.start_date = new Date()
-      // this.end_date = new Date()
-      // this.expected_return_date = new Date()
-      // this.created_at = new Date()
-      // this.updated_at = new Date()
     }
   }
 }
