@@ -8,6 +8,10 @@ export const ensureAdmin = async (request: Request, response: Response, next: Ne
   const userRepository = new UserRepository()
   const user = await userRepository.findById(user_id)
 
+  if (!user) {
+    throw new AppError('User not found', 401)
+  }
+
   if (!user.admin) {
     throw new AppError('User isn\'t admin', 401)
   }
