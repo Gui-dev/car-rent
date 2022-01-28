@@ -3,9 +3,13 @@ import { container } from 'tsyringe'
 
 import { UpdateUserAvatarService } from '@modules/users/services/UpdateUserAvatarService'
 
+type IRequestFile = {
+  filename: string
+}
+
 export class UpdateUserAvatarController {
   public async create (request: Request, response: Response): Promise<Response> {
-    const { filename } = request.file
+    const { filename } = request.file as IRequestFile
     const user_id = request.userId
     const updateUserAvatarService = container.resolve(UpdateUserAvatarService)
 
