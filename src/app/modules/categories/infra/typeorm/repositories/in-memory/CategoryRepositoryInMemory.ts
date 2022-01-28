@@ -5,7 +5,7 @@ import { Category } from '../../model/Category'
 export class CategoryRepositoryInMemory implements ICategoryRepository {
   public categories: Category[] = []
 
-  public async listCategories (): Promise<Category[]> {
+  public async listCategories (): Promise<Category[] | undefined> {
     const categories = this.categories
     return categories
   }
@@ -23,7 +23,7 @@ export class CategoryRepositoryInMemory implements ICategoryRepository {
     return category
   }
 
-  public async findByName (name: string): Promise<Category> {
+  public async findByName (name: string): Promise<Category | undefined> {
     const category = this.categories.find((category) => category.name === name)
 
     return category as Category

@@ -7,7 +7,7 @@ import { ICategoryRepository } from '../repositories/ICategoryRepository'
 import { AppError } from '@shared/infra/error/AppError'
 
 type ImportCategoryServiceProps = {
-  file: Express.Multer.File
+  file: Express.Multer.File | undefined
 }
 
 type loadCategoriesFileProps = {
@@ -40,29 +40,31 @@ export class ImportCategoryService {
 
   private async loadCategoriesFile ({ file }: ImportCategoryServiceProps): Promise<loadCategoriesFileProps[]> {
     return new Promise((resolve, reject) => {
-      const categories: loadCategoriesFileProps[] = []
-      const stream = createReadStream(file.path)
-      const parseFile = csvParse()
+      if (file) {
+        const categories: loadCategoriesFileProps[] = []
+        const stream = createReadStream(file.path)
+        const parseFile = csvParse()
 
-      stream.pipe(parseFile)
+        stream.pipe(parseFile)
 
-      parseFile
-        .on('data', (line) => {
-          const [name, description] = line
-          categories.push({
-            name,
-            description
+        parseFile
+          .on('data', (line) => {
+            const [name, description] = line
+            categories.push({
+              name,
+              description
+            })
           })
-        })
-        .on('end', () => {
-          promises.unlink(file.path)
-          resolve(categories)
-        })
-        .on('error', () => {
-          reject(new AppError('Error uploading file', 400))
-        })
+          .on('end', () => {
+            promises.unlink(file.path)
+            resolve(categories)
+          })
+          .on('error', () => {
+            reject(new AppError('Error uploading file', 400))
+          })
 
-      return categories
+        return categories
+      }
     })
   }
 }
