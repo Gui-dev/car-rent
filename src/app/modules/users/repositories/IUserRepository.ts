@@ -3,6 +3,6 @@ import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO'
 
 export interface IUserRepository {
   create (data: ICreateUserDTO): Promise<User>
-  findByEmail (email: string): Promise<User>
-  findById (id: string): Promise<User>
+  findByEmail (email: string): Promise<User | undefined>
+  findById (id: string): Promise<User | undefined>
 }

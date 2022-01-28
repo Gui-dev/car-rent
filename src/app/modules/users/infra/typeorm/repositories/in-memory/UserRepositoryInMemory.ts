@@ -20,13 +20,13 @@ export class UserRepositoryInMemory implements IUserRepository {
     return user
   }
 
-  public async findByEmail (email: string): Promise<User> {
+  public async findByEmail (email: string): Promise<User | undefined> {
     const user = this.users.find(user => user.email === email)
 
     return user as User
   }
 
-  public async findById (id: string): Promise<User> {
+  public async findById (id: string): Promise<User | undefined> {
     const user = this.users.find(user => user.id === id)
 
     return user as User

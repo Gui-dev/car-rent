@@ -10,7 +10,7 @@ export class ListCategoriesService {
     private categoriesRepository: CategoryRepository
   ) {}
 
-  public async execute (): Promise<Category[]> {
+  public async execute (): Promise<Category[] | undefined> {
     const categories = await this.categoriesRepository.listCategories()
 
     return categories
