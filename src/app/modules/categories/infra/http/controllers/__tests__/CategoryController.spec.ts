@@ -48,4 +48,24 @@ describe('CategoryController', () => {
 
     expect(response.status).toBe(201)
   })
+
+  it('should not be able to create a new category with the same name', async () => {
+    const responseToken = await request(app).post('/sessions').send({
+      email: 'batman@email.com',
+      password: '123456'
+    })
+
+    const { token } = responseToken.body
+
+    const response = await request(app).post('/categories')
+      .send({
+        name: 'fake_name',
+        description: 'fake_description'
+      })
+      .set({
+        Authorization: `Bearer ${token}`
+      })
+
+    expect(response.status).toBe(400)
+  })
 })
