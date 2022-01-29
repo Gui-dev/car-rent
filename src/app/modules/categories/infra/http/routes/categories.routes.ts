@@ -18,7 +18,7 @@ categoriesRouter.post('/', ensureAuthenticated, ensureAdmin, categoryController.
 
 categoriesRouter.post('/import', ensureAuthenticated, ensureAdmin, upload.single('file'), importCategory.create)
 
-categoriesRouter.get('/', ensureAuthenticated, ensureAdmin, categoryController.index)
+categoriesRouter.get('/', categoryController.index)
 
 export {
   categoriesRouter

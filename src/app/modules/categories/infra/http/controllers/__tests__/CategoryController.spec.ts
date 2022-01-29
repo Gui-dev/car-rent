@@ -86,13 +86,7 @@ describe('CategoryController', () => {
         Authorization: `Bearer ${token}`
       })
 
-    const response = await request(app)
-      .get('/categories')
-      .set({
-        Authorization: `Bearer ${token}`
-      })
-
-    console.log(response.body)
+    const response = await request(app).get('/categories')
 
     expect(response.status).toBe(201)
     expect(response.body.length).toBe(1)
