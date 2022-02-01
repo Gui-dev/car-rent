@@ -3,9 +3,11 @@ import dayjs from 'dayjs'
 import { RentalsRepositoryInMemory } from '@modules/rentals/infra/typeorm/in-memory/RentalsRepositoryInMemory'
 import { AppError } from '@shared/infra/error/AppError'
 import { CreateRentalsService } from '../CreateRentalsService'
+import { CarRepositoryInMemory } from '@modules/cars/infra/typeorm/in-memory/CarRepositoryInMemory'
 import { DayJSDateProvider } from '@modules/rentals/providers/DateProvider/implementations/DayJSDateProvider'
 
 let rentalsRepositoryInMemory: RentalsRepositoryInMemory
+let carRepositoryInMemory: CarRepositoryInMemory
 let dayJSDateProvider: DayJSDateProvider
 let createRentalsService: CreateRentalsService
 
@@ -14,9 +16,11 @@ describe('Create Rental Service', () => {
 
   beforeEach(() => {
     rentalsRepositoryInMemory = new RentalsRepositoryInMemory()
+    carRepositoryInMemory = new CarRepositoryInMemory()
     dayJSDateProvider = new DayJSDateProvider()
     createRentalsService = new CreateRentalsService(
       rentalsRepositoryInMemory,
+      carRepositoryInMemory,
       dayJSDateProvider
     )
   })
