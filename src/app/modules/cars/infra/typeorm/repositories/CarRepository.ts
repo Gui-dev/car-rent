@@ -52,4 +52,13 @@ export class CarRepository implements ICarRepository {
 
     return car
   }
+
+  public async updateAvailable (car_id: string, available: boolean): Promise<void> {
+    await this.repositoryCar.createQueryBuilder()
+      .update()
+      .set({ available })
+      .where('id = :car_id')
+      .setParameters({ car_id })
+      .execute()
+  }
 }
