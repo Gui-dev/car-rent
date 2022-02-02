@@ -9,9 +9,9 @@ export class DayJSDateProvider implements IDateProvider {
   public compareInHours (start_date: Date, end_date: Date): number {
     const startDateUTC = this.convertToUTC(start_date)
     const endDateUTC = this.convertToUTC(end_date)
-    const compareDate = dayjs(endDateUTC).diff(startDateUTC, 'hours')
+    const compareDateInHours = dayjs(endDateUTC).diff(startDateUTC, 'hours')
 
-    return compareDate
+    return compareDateInHours
   }
 
   public convertToUTC (date: Date): string {
@@ -22,5 +22,13 @@ export class DayJSDateProvider implements IDateProvider {
 
   public dateNow (): Date {
     return dayjs().toDate()
+  }
+
+  public compareInDays (start_date: Date, end_date: Date): number {
+    const startDateUTC = this.convertToUTC(start_date)
+    const endDateUTC = this.convertToUTC(end_date)
+    const compareDateInDays = dayjs(endDateUTC).diff(startDateUTC, 'days')
+
+    return compareDateInDays
   }
 }
