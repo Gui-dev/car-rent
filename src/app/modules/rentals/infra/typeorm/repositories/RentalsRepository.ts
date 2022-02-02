@@ -18,13 +18,29 @@ export class RentalsRepository implements IRentalsRepository {
     return rental
   }
   public async findOpenRentalByCar (car_id: string): Promise<Rental | undefined> {
-    const openByCar = await this.rentalsRepository.findOne({ car_id })
+    const openByCar = await this.rentalsRepository.findOne({
+      where: {
+        car_id,
+        end_date: null
+      }
+    })
 
     return openByCar
   }
   public async findOpenRentalByUser (user_id: string): Promise<Rental | undefined> {
-    const openByUser = await this.rentalsRepository.findOne({ user_id })
+    const openByUser = await this.rentalsRepository.findOne({
+      where: {
+        user_id,
+        end_date: null
+      }
+    })
 
     return openByUser
+  }
+
+  public async findById (rental_id: string): Promise<Rental | undefined> {
+    const rental = await this.rentalsRepository.findOne(rental_id)
+
+    return rental
   }
 }

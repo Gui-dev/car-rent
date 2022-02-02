@@ -8,10 +8,13 @@ export class RentalsRepositoryInMemory implements IRentalsRepository {
     const rental = new Rental()
 
     Object.assign(rental, {
+      id: data.id,
       user_id: data.user_id,
       car_id: data.car_id,
       start_date: new Date(),
-      expected_return_date: data.expected_return_date
+      end_date: data.end_date,
+      expected_return_date: data.expected_return_date,
+      total: data.total
     })
 
     this.rentalsRepository.push(rental)
@@ -25,5 +28,9 @@ export class RentalsRepositoryInMemory implements IRentalsRepository {
 
   public async findOpenRentalByUser (user_id: string): Promise<Rental | undefined> {
     return this.rentalsRepository.find(rental => rental.user_id === user_id && !rental.end_date)
+  }
+
+  public async findById (rental_id: string): Promise<Rental | undefined> {
+    return this.rentalsRepository.find(rental => rental.car_id === rental_id)
   }
 }
