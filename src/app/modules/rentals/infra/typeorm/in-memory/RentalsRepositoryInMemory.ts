@@ -4,6 +4,7 @@ import { Rental } from '../model/Rental'
 
 export class RentalsRepositoryInMemory implements IRentalsRepository {
   private rentalsRepository: Rental[] = []
+
   public async create (data: ICreateRentalDTO): Promise<Rental> {
     const rental = new Rental()
 
@@ -32,5 +33,9 @@ export class RentalsRepositoryInMemory implements IRentalsRepository {
 
   public async findById (rental_id: string): Promise<Rental | undefined> {
     return this.rentalsRepository.find(rental => rental.car_id === rental_id)
+  }
+
+  public async findByUserId (user_id: string): Promise<Rental[]> {
+    return this.rentalsRepository.filter(rental => rental.user_id === user_id)
   }
 }

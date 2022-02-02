@@ -6,4 +6,5 @@ export interface IRentalsRepository {
   findOpenRentalByCar(car_id: string): Promise<Rental | undefined>
   findOpenRentalByUser(user_id: string): Promise<Rental | undefined>
   findById(rental_id: string): Promise<Rental | undefined>
+  findByUserId(user_id: string): Promise<Rental[]>
 }
