@@ -11,7 +11,7 @@
     "prepare": "husky install",
     "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "seed:admin": "ts-node-dev -r tsconfig-paths/register 'src/app/shared/infra/database/seed/admin.ts'",
-    "test": "NODE_ENV=test jest"
+    "test": "NODE_ENV=test jest --runInBand --detectOpenHandles"
   },
   "lint-staged": {
     "src/**/*.ts": [
