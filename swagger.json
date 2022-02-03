@@ -1,5 +1,6 @@
 {
   "openapi": "3.0.0",
+
   "info": {
     "title": "Car Rental Documentation",
     "description": "This is a Car Rental API",
@@ -8,6 +9,7 @@
       "email": "adrianon10@gmail.com"
     }
   },
+
   "paths": {
     "/sessions": {
       "post": {
@@ -198,6 +200,51 @@
           },
           "400": {
             "description": "Car already exists"
+          }
+        }
+      }
+    },
+
+    "/cars/images/{id}": {
+      "post": {
+        "tags": ["Cars"],
+        "summary": "Upload images",
+        "description": "Upload images",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "description": "car id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "images": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
           }
         }
       }
