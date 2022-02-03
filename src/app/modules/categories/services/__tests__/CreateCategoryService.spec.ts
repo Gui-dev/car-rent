@@ -22,15 +22,15 @@ describe('Create Category', () => {
     expect(categoryResult).toHaveProperty('id')
   })
 
-  it('should not be able to create a new category with the same name', () => {
-    expect(async () => {
-      const category = {
-        name: 'Category Test',
-        description: 'Description Test'
-      }
+  it('should not be able to create a new category with the same name', async () => {
+    const category = {
+      name: 'Category Test',
+      description: 'Description Test'
+    }
 
-      await createCategoryService.execute(category)
-      await createCategoryService.execute(category)
-    }).rejects.toBeInstanceOf(AppError)
+    await createCategoryService.execute(category)
+
+    await expect(createCategoryService.execute(category))
+      .rejects.toEqual(new AppError('Category already exists!'))
   })
 })
