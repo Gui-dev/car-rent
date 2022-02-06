@@ -4,7 +4,7 @@ import { RentalsRepositoryInMemory } from '@modules/rentals/infra/typeorm/in-mem
 import { AppError } from '@shared/infra/error/AppError'
 import { CreateRentalsService } from '../CreateRentalsService'
 import { CarRepositoryInMemory } from '@modules/cars/infra/typeorm/in-memory/CarRepositoryInMemory'
-import { DayJSDateProvider } from '@modules/rentals/providers/DateProvider/implementations/DayJSDateProvider'
+import { DayJSDateProvider } from '@shared/providers/DateProvider/implementations/DayJSDateProvider'
 
 let rentalsRepositoryInMemory: RentalsRepositoryInMemory
 let carRepositoryInMemory: CarRepositoryInMemory

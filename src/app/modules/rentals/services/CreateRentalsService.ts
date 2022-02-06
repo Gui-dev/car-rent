@@ -5,7 +5,7 @@ import { ICreateRentalDTO } from '@modules/rentals/dtos/ICreateRentalDTO'
 import { AppError } from '@shared/infra/error/AppError'
 import { Rental } from '../infra/typeorm/model/Rental'
 import { ICarRepository } from '@modules/cars/repositories/ICarRepository'
-import { IDateProvider } from '../providers/DateProvider/models/IDateProvider'
+import { IDateProvider } from '@shared/providers/DateProvider/models/IDateProvider'
 
 @injectable()
 export class CreateRentalsService {

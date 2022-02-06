@@ -5,7 +5,7 @@ import { IDevolutionRentalsDTO } from '../dtos/IDevolutionRentalsDTO'
 import { ICarRepository } from '@modules/cars/repositories/ICarRepository'
 import { IRentalsRepository } from '../repositories/IRentalsRepository'
 import { AppError } from '@shared/infra/error/AppError'
-import { IDateProvider } from '../providers/DateProvider/models/IDateProvider'
+import { IDateProvider } from '@shared/providers/DateProvider/models/IDateProvider'
 
 @injectable()
 export class DevolutionRentalsService {
