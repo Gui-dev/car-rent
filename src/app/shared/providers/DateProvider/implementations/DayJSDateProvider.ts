@@ -31,4 +31,8 @@ export class DayJSDateProvider implements IDateProvider {
 
     return compareDateInDays
   }
+
+  public addDays (days: number): Date {
+    return dayjs().add(days, 'days').toDate()
+  }
 }
