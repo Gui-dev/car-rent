@@ -1,5 +1,7 @@
 import { UserRepositoryInMemory } from '@modules/users/infra/typeorm/repositories/in-memory/UserRepositoryInMemory'
 import { FakeBcryptHashProvider } from '@modules/users/providers/hashProvider/fakes/FakeBcryptHashProvider'
+import { UsersTokenRepositoryInMemory } from '@modules/users/infra/typeorm/repositories/in-memory/UsersTokenRepositoryInMemory'
+import { DayJSDateProvider } from '@shared/providers/DateProvider/implementations/DayJSDateProvider'
 import { AuthenticateUserService } from '../AuthenticateUserService'
 import { CreateUserServices } from '../CreateUserServices'
 import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO'
@@ -7,16 +9,22 @@ import { AppError } from '@shared/infra/error/AppError'
 
 let userRepositoryInMemory: UserRepositoryInMemory
 let authenticateUserService: AuthenticateUserService
+let usersTokenRepositoryInMemory: UsersTokenRepositoryInMemory
+let dayJSDateProvider: DayJSDateProvider
 let createUserService: CreateUserServices
 let fakeBcryptHashProvider: FakeBcryptHashProvider
 
 describe('Authenticate User Service', () => {
   beforeEach(() => {
     userRepositoryInMemory = new UserRepositoryInMemory()
+    usersTokenRepositoryInMemory = new UsersTokenRepositoryInMemory()
+    dayJSDateProvider = new DayJSDateProvider()
     fakeBcryptHashProvider = new FakeBcryptHashProvider()
     fakeBcryptHashProvider = new FakeBcryptHashProvider()
     authenticateUserService = new AuthenticateUserService(
       userRepositoryInMemory,
+      usersTokenRepositoryInMemory,
+      dayJSDateProvider,
       fakeBcryptHashProvider
     )
     createUserService = new CreateUserServices(
