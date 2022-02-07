@@ -9,3 +9,5 @@
 !/tmp/avatar/.gitkeep
 !/tmp/files/.gitkeep
 !/tmp/cars/.gitkeep
+
+.env
