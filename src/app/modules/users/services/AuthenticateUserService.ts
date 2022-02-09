@@ -1,10 +1,13 @@
 import { inject, injectable } from 'tsyringe'
 import { sign } from 'jsonwebtoken'
 
+import { authConfig } from '@config/auth'
 import { IAuthenticateUserDTO } from '../dtos/IAuthenticateUserDTO'
 import { AppError } from '@shared/infra/error/AppError'
 import { IUserRepository } from '../repositories/IUserRepository'
 import { IBcryptHashProvider } from '../providers/hashProvider/models/IBcryptHashProvider'
+import { IUsersTokenRepository } from '../repositories/IUsersTokenRepository'
+import { IDateProvider } from '@shared/providers/DateProvider/models/IDateProvider'
 
 type User = {
   id: string
@@ -18,6 +21,7 @@ type User = {
 type IResponse = {
   user: User
   token: string
+  refresh_token: string
 }
 
 @injectable()
@@ -25,6 +29,10 @@ export class AuthenticateUserService {
   constructor (
     @inject('UserRepository')
     private userRepository: IUserRepository,
+    @inject('UsersTokenRepository')
+    private usersTokenRepository: IUsersTokenRepository,
+    @inject('DayJSDateProvider')
+    private dayJSDateProvider: IDateProvider,
     @inject('BcryptHashProvider')
     private bcryptHashProvider: IBcryptHashProvider
   ) {}
@@ -42,18 +50,32 @@ export class AuthenticateUserService {
       throw new AppError('E-mail or password incorrect', 401)
     }
 
-    const token = sign({}, 'minhachavesecreta', {
+    const token = sign({}, authConfig.secret, {
       subject: user.id,
-      expiresIn: '1d'
+      expiresIn: authConfig.expiresIn
     })
 
     if (!token) {
       throw new AppError('Error generating token', 400)
     }
 
+    const refresh_token = sign({ email }, authConfig.refresh_token, {
+      subject: user.id,
+      expiresIn: authConfig.refreshTokenExpiresIn
+    })
+
+    const expiresRefreshTokenDays = this.dayJSDateProvider.addDays(authConfig.expiresRefreshTokenDays)
+
+    await this.usersTokenRepository.create({
+      user_id: user.id,
+      refresh_token,
+      expires_date: expiresRefreshTokenDays
+    })
+
     return {
       user,
-      token
+      token,
+      refresh_token
     }
   }
 }
