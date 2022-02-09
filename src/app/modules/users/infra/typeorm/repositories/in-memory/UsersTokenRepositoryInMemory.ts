@@ -12,4 +12,16 @@ export class UsersTokenRepositoryInMemory implements IUsersTokenRepository {
 
     return userToken
   }
+
+  public async findByUserIdAndRefreshToken (user_id: string, refresh_token: string): Promise<UserToken | undefined> {
+    const token = this.userTokenRepository.find(
+      token => token.user_id === user_id && token.refresh_token === refresh_token
+    )
+
+    return token
+  }
+
+  public async deleteById (id: string): Promise<void> {
+    this.userTokenRepository.find(token => token.user_id !== id)
+  }
 }
