@@ -7,7 +7,7 @@ export class UsersTokenRepositoryInMemory implements IUsersTokenRepository {
 
   public async create (data: IUsersTokenDTO): Promise<UserToken> {
     const userToken = new UserToken()
-    Object.assign(userToken.refresh_token, { data })
+    Object.assign(userToken, { data })
     this.userTokenRepository.push(userToken)
 
     return userToken
