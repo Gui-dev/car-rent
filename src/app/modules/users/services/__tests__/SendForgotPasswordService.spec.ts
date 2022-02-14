@@ -3,6 +3,7 @@ import { UsersTokenRepositoryInMemory } from '@modules/users/infra/typeorm/repos
 import { DayJSDateProvider } from '@shared/providers/DateProvider/implementations/DayJSDateProvider'
 import { EtherealMailProviderInMemory } from '@shared/providers/MailProvider/fakes/EtherealMailProviderInMemory'
 import { SendForgotPasswordService } from '../SendForgotPasswordService'
+import { AppError } from '@shared/infra/error/AppError'
 
 let userRepositoryInMemory: UserRepositoryInMemory
 let usersTokenRepositoryInMemory: UsersTokenRepositoryInMemory
@@ -37,5 +38,11 @@ describe('SendForgotPasswordService', () => {
     await sendForgotPasswordService.execute('bruce@email.com')
 
     expect(sendMail).toHaveBeenCalled()
+  })
+
+  it('should not be able to send an email if user doesn\'t exists', async () => {
+    await expect(
+      sendForgotPasswordService.execute('fake@email.com')
+    ).rejects.toEqual(new AppError('User doesn\'t exists'))
   })
 })

@@ -28,7 +28,7 @@ export class SendForgotPasswordService {
     )
 
     if (!user) {
-      throw new AppError('Users doesn\'t exists')
+      throw new AppError('User doesn\'t exists')
     }
 
     const token = uuid()
