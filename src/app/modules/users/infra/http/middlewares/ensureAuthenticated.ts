@@ -3,7 +3,6 @@ import { verify, JwtPayload } from 'jsonwebtoken'
 
 import { authConfig } from '@config/auth'
 import { AppError } from '@shared/infra/error/AppError'
-import { UsersTokenRepository } from '../../typeorm/repositories/UsersTokenRepository'
 
 type IPayload = JwtPayload & {
   iat: string
@@ -13,7 +12,6 @@ type IPayload = JwtPayload & {
 
 export const ensureAuthenticated = async (request: Request, response: Response, next: NextFunction) => {
   const authHeader = request.headers.authorization
-  const usersTokenRepository = new UsersTokenRepository()
 
   if (!authHeader) {
     throw new AppError('Token missing', 401)
@@ -22,15 +20,10 @@ export const ensureAuthenticated = async (request: Request, response: Response, 
   const [, token] = authHeader.split(' ')
 
   try {
-    const decoded = verify(token, authConfig.refresh_token)
+    const decoded = verify(token, authConfig.secret)
     const { sub } = decoded as IPayload
-    const user = await usersTokenRepository.findByUserIdAndRefreshToken(sub, token)
 
-    if (!user) {
-      throw new AppError('User doesn\'t exists', 401)
-    }
-
-    request.userId = user.user_id
+    request.userId = sub
 
     return next()
   } catch {
