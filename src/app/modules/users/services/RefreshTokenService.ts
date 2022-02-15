@@ -7,6 +7,11 @@ import { AppError } from '@shared/infra/error/AppError'
 import { IDateProvider } from '@shared/providers/DateProvider/models/IDateProvider'
 import { UserToken } from '../infra/typeorm/model/UserToken'
 
+type IRefreshTokenServiceResponse = {
+  token: string
+  refresh_token: UserToken
+}
+
 type IPayload = {
   sub: string
   email: string
@@ -21,7 +26,7 @@ export class RefreshTokenService {
     private dayJSDateProvider: IDateProvider
   ) {}
 
-  public async execute (refresh_token: string): Promise<UserToken> {
+  public async execute (refresh_token: string): Promise<IRefreshTokenServiceResponse> {
     const { email, sub } = verify(refresh_token, authConfig.refresh_token) as IPayload
     const userId = sub
     const userTokens = await this.usersTokenRepository.findByUserIdAndRefreshToken(userId, refresh_token)
@@ -39,12 +44,20 @@ export class RefreshTokenService {
 
     const expiresRefreshTokenDays = this.dayJSDateProvider.addDays(authConfig.expiresRefreshTokenDays)
 
-    const token = await this.usersTokenRepository.create({
+    const refreshToken = await this.usersTokenRepository.create({
       user_id: sub,
       refresh_token: newRefreshToken,
       expires_date: expiresRefreshTokenDays
     })
 
-    return token
+    const newToken = sign({}, authConfig.secret, {
+      subject: userId,
+      expiresIn: authConfig.expiresIn
+    })
+
+    return {
+      token: newToken,
+      refresh_token: refreshToken
+    }
   }
 }
