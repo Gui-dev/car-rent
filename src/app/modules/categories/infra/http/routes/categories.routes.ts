@@ -12,7 +12,7 @@ const categoriesRouter = Router()
 const categoryController = new CategoryController()
 const importCategory = new ImportController()
 
-const upload = multer(multerConfig.upload('files'))
+const upload = multer(multerConfig)
 
 categoriesRouter.post('/', ensureAuthenticated, ensureAdmin, categoryController.create)
 

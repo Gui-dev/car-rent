@@ -14,7 +14,7 @@ const updateUserAvatarController = new UpdateUserAvatarController()
 const sendForgotPasswordController = new SendForgotPasswordController()
 const resetPasswordController = new ResetPasswordController()
 
-const upload = multer(multerConfig.upload('avatar'))
+const upload = multer(multerConfig)
 
 usersRoutes.post('/', userController.create)
 usersRoutes.post('/forgot-password', sendForgotPasswordController.create)

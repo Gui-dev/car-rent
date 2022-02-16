@@ -13,7 +13,7 @@ const carController = new CarController()
 const carSpecificationController = new CarSpecificationController()
 const carImageController = new CarImageController()
 
-const uploadImages = multer(multerConfig.upload('cars'))
+const uploadImages = multer(multerConfig)
 
 carsRouter.get('/availables', carController.index)
 carsRouter.post('/', ensureAuthenticated, ensureAdmin, carController.create)
