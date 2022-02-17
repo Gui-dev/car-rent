@@ -1,5 +1,5 @@
-import * as dotenv from 'dotenv'
 import 'reflect-metadata'
+import 'dotenv/config'
 import express, { NextFunction, Request, Response } from 'express'
 import 'express-async-errors'
 import cors from 'cors'
@@ -13,7 +13,6 @@ import { AppError } from '../error/AppError'
 import { routes } from '@shared/infra/http/routes'
 
 createConnection()
-dotenv.config()
 const app = express()
 
 app.use(express.json())
