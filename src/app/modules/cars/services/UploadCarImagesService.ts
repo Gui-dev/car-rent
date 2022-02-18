@@ -1,6 +1,7 @@
 import { inject, injectable } from 'tsyringe'
 
 import { ICarImagesRepository } from '../repositories/ICarImagesRepository'
+import { IStorageProvider } from '@shared/providers/StorageProvider/models/IStorageProvider'
 
 type UploadCarImagesProps = {
   car_id: string
@@ -11,7 +12,9 @@ type UploadCarImagesProps = {
 export class UploadCarImagesService {
   constructor (
     @inject('CarImagesRepository')
-    private carImagesRepository: ICarImagesRepository
+    private carImagesRepository: ICarImagesRepository,
+    @inject('StorageProvider')
+    private storageProvider: IStorageProvider
   ) {}
 
   public async execute ({ car_id, images_name }: UploadCarImagesProps): Promise<void> {
@@ -20,6 +23,7 @@ export class UploadCarImagesService {
         car_id,
         image_name: image
       })
+      await this.storageProvider.save(image, 'cars')
     })
   }
 }
