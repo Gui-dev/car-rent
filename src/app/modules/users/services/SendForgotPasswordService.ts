@@ -17,7 +17,7 @@ export class SendForgotPasswordService {
     private usersTokenRepository: IUsersTokenRepository,
     @inject('DayJSDateProvider')
     private dayJSDateProvider: IDateProvider,
-    @inject('EtherealMailProvider')
+    @inject('MailProvider')
     private mailProvider: IMailProvider
   ) {}
 
