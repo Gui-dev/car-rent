@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { container } from 'tsyringe'
+import { instanceToPlain } from 'class-transformer'
 
 import { CreateUserServices } from '@modules/users/services/CreateUserServices'
 
@@ -14,6 +15,6 @@ export class UserController {
       driver_license
     })
 
-    return response.status(201).json(user)
+    return response.status(201).json(instanceToPlain(user))
   }
 }
