@@ -35,4 +35,16 @@ export class User {
       this.id = uuid()
     }
   }
+
+  @Expose({ name: 'avatar_url' })
+  public getAvatarUrl (): string | null {
+    switch (process.env.APP_STATUS) {
+      case 'development':
+        return `${process.env.APP_BASE_URL}/avatar/${this.avatar}`
+      case 'production':
+        return `${process.env.AWS_BUCKET_URL}/avatar/${this.avatar}`
+      default:
+        return null
+    }
+  }
 }
