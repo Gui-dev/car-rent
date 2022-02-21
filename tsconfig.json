@@ -8,6 +8,7 @@
     "allowJs": true,
     "module": "commonjs",
     "baseUrl": "./src/app",
+    "outDir": "./dist",
     "paths": {
       "@modules/*": ["modules/*"],
       "@shared/*": ["shared/*"],

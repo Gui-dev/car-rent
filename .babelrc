@@ -1,0 +1,16 @@
+{
+  "presets": [
+    ["@babel/preset-env", { "targets": { "node": "current" } }],
+    "@babel/preset-typescript"
+  ],
+  "plugins": [
+    ["module-resolver", {
+      "@modules": ["./src/app/modules"],
+      "@shared": ["./src/app/shared"],
+      "@config": ["./src/app/config"]
+    }],
+    "babel-plugin-transform-typescript-metadata",
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
+    ["@babel/plugin-proposal-class-properties", { "loose": true }]
+  ]
+}

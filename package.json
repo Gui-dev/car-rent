@@ -12,7 +12,7 @@
     "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "seed:admin": "ts-node-dev -r tsconfig-paths/register 'src/app/shared/infra/database/seed/admin.ts'",
     "test": "NODE_ENV=test jest --runInBand --detectOpenHandles",
-    "build": "tsc"
+    "build": "babel 'src/app' --extensions \".js,.ts\" --out-dir 'dist' --copy-files"
   },
   "lint-staged": {
     "src/**/*.ts": [
