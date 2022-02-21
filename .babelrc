@@ -5,9 +5,9 @@
   ],
   "plugins": [
     ["module-resolver", {
-      "@modules": ["./src/app/modules"],
-      "@shared": ["./src/app/shared"],
-      "@config": ["./src/app/config"]
+      "@modules": "./src/app/modules",
+      "@shared": "./src/app/shared",
+      "@config": "./src/app/config"
     }],
     "babel-plugin-transform-typescript-metadata",
     ["@babel/plugin-proposal-decorators", { "legacy": true }],
