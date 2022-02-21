@@ -3,6 +3,8 @@
 /coverage
 /dist
 
+ormconfig.json
+
 /tmp/avatar/*
 /tmp/files/*
 /tmp/cars/*

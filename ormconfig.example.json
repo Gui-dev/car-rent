@@ -1,0 +1,13 @@
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "docker",
+  "password": "root",
+  "database": "car-rent",
+  "entities": ["./src/app/modules/**/infra/typeorm/model/*.ts"],
+  "migrations": ["./src/app/shared/infra/database/migrations/*.ts"],
+  "cli": {
+    "migrationsDir": "./src/app/shared/infra/database/migrations"
+  }
+}
