@@ -4,6 +4,7 @@
   "main": "'src/app/shared/infra/http/server.ts'",
   "license": "MIT",
   "scripts": {
+    "start": "npx pm2 start 'dist/shared/infra/http/server.ts'",
     "dev": "ts-node-dev --inspect -r tsconfig-paths/register --transpile-only --ignore-watch node_modules 'src/app/shared/infra/http/server.ts'",
     "lint": "eslint 'src/**/*.ts' --max-warnings=0",
     "lint:fix": "yarn lint --fix",
@@ -72,6 +73,7 @@
     "multer": "^1.4.4",
     "nodemailer": "^6.7.2",
     "pg": "^8.7.1",
+    "pm2": "^5.2.0",
     "reflect-metadata": "^0.1.13",
     "supertest": "^6.2.2",
     "swagger-ui-express": "^4.3.0",
