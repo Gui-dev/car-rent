@@ -2,6 +2,8 @@ import 'reflect-metadata'
 import 'dotenv/config'
 import express, { NextFunction, Request, Response } from 'express'
 import 'express-async-errors'
+import * as Sentry from '@sentry/node'
+import * as Tracing from '@sentry/tracing'
 import cors from 'cors'
 import { serve, setup } from 'swagger-ui-express'
 
@@ -18,6 +20,18 @@ createConnection()
 const app = express()
 app.use(rateLimiter)
 
+Sentry.init({
+  dsn: process.env.SENTRY_DNS,
+  integrations: [
+    new Sentry.Integrations.Http({ tracing: true }),
+    new Tracing.Integrations.Express({ app })
+  ],
+  tracesSampleRate: 1.0
+})
+
+app.use(Sentry.Handlers.requestHandler())
+app.use(Sentry.Handlers.tracingHandler())
+
 app.use(express.json())
 app.use(cors())
 
@@ -28,6 +42,8 @@ app.use('/files', express.static(`${uploadMulter.tmpFolder}/files`))
 app.use('/api-docs', serve, setup(swaggerFile))
 
 app.use(routes)
+
+app.use(Sentry.Handlers.errorHandler())
 
 app.use((err: Error, request: Request, response: Response, next: NextFunction) => {
   if (err instanceof AppError) {
