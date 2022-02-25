@@ -12,9 +12,11 @@ import uploadMulter from '@config/uploadMulter'
 import { AppError } from '../error/AppError'
 
 import { routes } from '@shared/infra/http/routes'
+import { rateLimiter } from '@shared/infra/http/middlewares/rateLimiter'
 
 createConnection()
 const app = express()
+app.use(rateLimiter)
 
 app.use(express.json())
 app.use(cors())
